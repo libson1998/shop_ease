@@ -16,10 +16,7 @@ class RouteGenerator {
         return MaterialPageRoute(
           builder: (context) => const LoginScreen(),
         );
-      case "/OrderSuccessScreen":
-        return MaterialPageRoute(
-          builder: (context) => const OrderSuccessScreen(),
-        );
+
       case "/AppBase":
         return MaterialPageRoute(
           builder: (context) => const AppBase(),
@@ -33,7 +30,21 @@ class RouteGenerator {
         if (args is List) {
           return MaterialPageRoute(
               builder: (_) => DetailsScreen(
-                    product: args[1],
+                    product: args[0],
+                    navigateTo: args[1],
+                  ));
+        } else {
+          return MaterialPageRoute(
+            builder: (_) => const ErrorScreen(
+              title: 'Error',
+            ),
+          );
+        }
+      case '/OrderSuccessScreen':
+        if (args is List) {
+          return MaterialPageRoute(
+              builder: (_) => OrderSuccessScreen(
+                    navigateTo: args[0],
                   ));
         } else {
           return MaterialPageRoute(
@@ -45,7 +56,8 @@ class RouteGenerator {
       case '/SearchScreen':
         if (args is List) {
           return MaterialPageRoute(
-              builder: (_) => SearchScreen(products: args[0]));
+              builder: (_) =>
+                  SearchScreen(products: args[0], navigateTo: args[1]));
         } else {
           return MaterialPageRoute(
             builder: (_) => const ErrorScreen(
@@ -59,6 +71,7 @@ class RouteGenerator {
               builder: (_) => CheckoutScreen(
                     products: args[0],
                     homeBloc: args[1],
+                    navigateTo: args[2],
                   ));
         } else {
           return MaterialPageRoute(

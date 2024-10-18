@@ -15,8 +15,9 @@ import 'package:svg_flutter/svg_flutter.dart';
 
 class DetailsScreen extends StatefulWidget {
   final Product product;
+  final Function(int) navigateTo;
 
-  const DetailsScreen({super.key, required this.product});
+  const DetailsScreen({super.key, required this.product, required this.navigateTo});
 
   @override
   State<DetailsScreen> createState() => _DetailsScreenState();
@@ -62,7 +63,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
           builder: (context, state) {
             return Column(
               children: [
-                DetailsAppbar(),
+                DetailsAppbar(navigateTo: widget.navigateTo),
                 Stack(
                   children: [
                     SizedBox(

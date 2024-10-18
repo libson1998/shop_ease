@@ -5,8 +5,13 @@ import 'package:shope_ease/utils/constants.dart';
 
 class SearchScreen extends StatefulWidget {
   final List<Product> products;
+  final Function(int) navigateTo;
 
-  const SearchScreen({super.key, required this.products, });
+  const SearchScreen({
+    super.key,
+    required this.products,
+    required this.navigateTo,
+  });
 
   @override
   State<SearchScreen> createState() => _SearchScreenState();
@@ -19,15 +24,15 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   void initState() {
     super.initState();
-     filteredProducts = widget.products;
+    filteredProducts = widget.products;
   }
 
   void _filterProducts(String query) {
     setState(() {
       searchQuery = query;
-       filteredProducts = widget.products
+      filteredProducts = widget.products
           .where((product) =>
-          product.name!.toLowerCase().contains(query.toLowerCase()))
+              product.name!.toLowerCase().contains(query.toLowerCase()))
           .toList();
     });
   }
@@ -44,7 +49,6 @@ class _SearchScreenState extends State<SearchScreen> {
       body: SafeArea(
         child: Column(
           children: [
-
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: TextField(
@@ -71,7 +75,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       Navigator.pushNamed(
                         context,
                         "/DetailsScreen",
-                        arguments: [3, product],
+                        arguments: [ product,widget.navigateTo],
                       );
                     },
                   );

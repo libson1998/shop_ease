@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:shope_ease/network/bloc/home_bloc/home_bloc.dart';
 import 'package:shope_ease/network/model_class/product_response.dart';
 import 'package:shope_ease/ui/cart/cart_item_list.dart';
-import 'package:shope_ease/ui/checkout/price_deail_widget.dart';
 import 'package:shope_ease/ui/checkout/price_details_widget.dart';
 import 'package:shope_ease/utils/util_widget.dart';
 import 'package:shope_ease/widgets/button_widget.dart';
@@ -16,9 +13,15 @@ import 'package:svg_flutter/svg_flutter.dart';
 class CheckoutScreen extends StatefulWidget {
   final List<Product> products;
   final HomeBloc homeBloc;
+  final bool isCheckoutScreen;
+  final Function(int) navigateTo;
 
   const CheckoutScreen(
-      {super.key, required this.products, required this.homeBloc});
+      {super.key,
+      required this.products,
+      required this.homeBloc,
+      this.isCheckoutScreen = true,
+      required this.navigateTo});
 
   @override
   State<CheckoutScreen> createState() => _CheckoutScreenState();
@@ -28,7 +31,16 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    return BlocBuilder<HomeBloc, HomeState>(
+    return BlocConsumer<HomeBloc, HomeState>(
+      listener: (context, state) {
+        if (state is PurchaseSuccessState) {
+          widget.homeBloc.add(HomeInitialFetchEvent());
+          Widgets().toastWidget("Order Placed", context);
+          widget.homeBloc.add(ClearCartEvent(products: state.products));
+          Navigator.popAndPushNamed(context, "/OrderSuccessScreen",
+              arguments: [widget.navigateTo]);
+        }
+      },
       bloc: widget.homeBloc,
       builder: (context, state) {
         List<Product> currentProducts = widget.products;
@@ -37,69 +49,74 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           currentProducts = state.products
               .where((product) => product.cartAdded == true)
               .toList();
-        }
-
-        return Scaffold(
-          backgroundColor: const Color(0xffF6F6F6),
-          bottomNavigationBar: continueButton(screenWidth, currentProducts),
-          appBar: AppBar(
-            surfaceTintColor: Colors.white,
-            backgroundColor: Colors.white,
-            toolbarHeight: 20,
-            leading: const SizedBox(),
-          ),
-          body: SafeArea(
-            child: Column(
-              children: [
-                PreferredSize(
-                  preferredSize: Size.fromHeight(AppBar().preferredSize.height),
-                  child: Container(
-                    padding:
-                        const EdgeInsets.only(left: 20, right: 20, bottom: 32),
-                    color: Colors.white,
-                    child: Row(
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          child: SvgPicture.asset(
-                            'assets/icons/arrow_Left.svg',
-                            height: 24,
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        const Text(
-                          "Order summary",
-                          style: TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                const CustomSizedBox(height: 12),
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        ChangeAddressWidget(onPress: () {}),
-                        CartItemList(
-                          products: currentProducts,
-                          homeBloc: widget.homeBloc,
-                        ),
-                        const CustomSizedBox(height: 20),
-                        PriceDetailsList(
-                            products: currentProducts,
-                            homeBloc: widget.homeBloc),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
+          return Scaffold(
+            backgroundColor: const Color(0xffF6F6F6),
+            bottomNavigationBar: continueButton(screenWidth, currentProducts),
+            appBar: AppBar(
+              surfaceTintColor: Colors.white,
+              backgroundColor: Colors.white,
+              toolbarHeight: 20,
+              leading: const SizedBox(),
             ),
-          ),
-        );
+            body: SafeArea(
+              child: Column(
+                children: [
+                  PreferredSize(
+                    preferredSize:
+                        Size.fromHeight(AppBar().preferredSize.height),
+                    child: Container(
+                      padding: const EdgeInsets.only(
+                          left: 20, right: 20, bottom: 32),
+                      color: Colors.white,
+                      child: Row(
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: SvgPicture.asset(
+                              'assets/icons/arrow_Left.svg',
+                              height: 24,
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          const Text(
+                            "Order summary",
+                            style: TextStyle(
+                                fontSize: 14, fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const CustomSizedBox(height: 12),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          ChangeAddressWidget(onPress: () {}),
+                          CartItemList(
+                            products: currentProducts,
+                            homeBloc: widget.homeBloc,
+                            isCheckoutScreen: true,
+                          ),
+                          const CustomSizedBox(height: 20),
+                          PriceDetailsList(
+                              products: currentProducts,
+                              homeBloc: widget.homeBloc),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        } else {
+          return Scaffold(
+            body: SafeArea(child: Widgets().widgetLoader()),
+          );
+        }
       },
     );
   }
@@ -109,9 +126,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       padding: const EdgeInsets.all(20.0),
       child: ButtonWidget(
         buttonPress: () {
-          Navigator.popAndPushNamed(context, "/OrderSuccessScreen");
+          widget.homeBloc.add(PurchaseFromCartEvent(products: products));
         },
-        title: "Continue",
+        title: "Purchase",
         width: screenWidth,
         height: 50,
         decoration: ShapeDecoration(

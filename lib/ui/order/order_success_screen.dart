@@ -1,21 +1,31 @@
- import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:shope_ease/widgets/sized_box_heigh_width.dart';
 import 'package:svg_flutter/svg_flutter.dart';
 
 class OrderSuccessScreen extends StatelessWidget {
-  const OrderSuccessScreen({super.key});
+  final Function(int) navigateTo;
+
+  const OrderSuccessScreen({super.key, required this.navigateTo});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xffF6F6F6),
       appBar: AppBar(
+          leading: IconButton(
+            onPressed: () {
+              Navigator.of(context).popUntil((route) => route.isFirst);
+              navigateTo(0);
+            },
+            icon: Icon(Icons.keyboard_arrow_left_rounded),
+          ),
           backgroundColor: Colors.white,
           surfaceTintColor: Colors.white,
           titleSpacing: 0,
           title: const Text(
             "Order Placed",
-           )),
+            style: TextStyle(fontSize: 14),
+          )),
       body: SafeArea(
           child: Column(
         children: [

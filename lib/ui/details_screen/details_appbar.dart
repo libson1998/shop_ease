@@ -13,9 +13,9 @@ import 'package:svg_flutter/svg_flutter.dart';
 class DetailsAppbar extends StatefulWidget {
   final List<Product>? product;
   final bool isFormEnabled;
+  final Function(int) navigateTo;
 
-  const DetailsAppbar(
-      {super.key,   this.product, this.isFormEnabled = false});
+  const DetailsAppbar({super.key, this.product, this.isFormEnabled = false, required this.navigateTo});
 
   @override
   State<DetailsAppbar> createState() => _DetailsAppbarState();
@@ -51,9 +51,7 @@ class _DetailsAppbarState extends State<DetailsAppbar> {
             const CustomSizedBox(width: 18),
             Expanded(
               child: InkWell(
-                onTap: () {
-
-                },
+                onTap: () {},
                 child: FormFieldWidget(
                   enabled: widget.isFormEnabled,
                   passwordObscure: false,
@@ -74,7 +72,6 @@ class _DetailsAppbarState extends State<DetailsAppbar> {
                   },
                   hintText: "Search on Dana plaza...",
                   controller: textEditingController,
-
                   focusedBorder: OutlineInputBorder(
                       borderSide: const BorderSide(color: blackColor, width: 1),
                       borderRadius: BorderRadius.circular(8)),
@@ -116,8 +113,14 @@ class _DetailsAppbarState extends State<DetailsAppbar> {
               ),
             ),
             const CustomSizedBox(width: 18),
-            SvgPicture.asset("assets/icons/bag.svg",
-                color: Colors.black, height: 30, width: 30),
+            IconButton(
+              onPressed: () {
+                Navigator.of(context).popUntil((route) => route.isFirst);
+                widget.navigateTo(2);
+              },
+              icon: SvgPicture.asset("assets/icons/bag.svg",
+                  color: Colors.black, height: 30, width: 30),
+            )
           ],
         ),
       ),
@@ -151,7 +154,6 @@ class _DetailsAppbarState extends State<DetailsAppbar> {
   }
 
   void _onSpeechResult(SpeechRecognitionResult result) {
-
     final recognizedMessage = result.recognizedWords;
 
     setState(() {

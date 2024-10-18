@@ -33,51 +33,39 @@ class _CartScreenState extends State<CartScreen> {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
 
-    return BlocConsumer<HomeBloc, HomeState>(
-      listener: (context, state) {
-        if (state is CartSuccessState) {
-          context.read<HomeBloc>().add(HomeInitialFetchEvent());
-        }
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.of(context).popUntil((route) => route.isFirst);
+        widget.navigateTo(0);
+        return false;
       },
-      builder: (context, state) {
-        int listCount = 0;
+      child: Scaffold(
+        backgroundColor: const Color(0xffF6F6F6),
+        appBar: AppBar(
+          surfaceTintColor: Colors.white,
+          backgroundColor: Colors.white,
+          toolbarHeight: 20,
+          leading: const SizedBox(),
+        ),
+        body: BlocConsumer<HomeBloc, HomeState>(
+          listener: (context, state) {
+            if (state is CartSuccessState) {
+              context.read<HomeBloc>().add(HomeInitialFetchEvent());
+            }
+          },
+          builder: (context, state) {
+            int listCount = 0;
 
-        if (state is HomeSuccessState) {
-          listCount = state.products
-              .where((product) => product.cartAdded == true)
-              .length;
+            if (state is HomeSuccessState) {
+              listCount = state.products
+                  .where((product) => product.cartAdded == true)
+                  .length;
 
-          if (listCount == 0) {
-            return Scaffold(
-              backgroundColor: const Color(0xffF6F6F6),
-              appBar: AppBar(
-                surfaceTintColor: Colors.white,
-                backgroundColor: Colors.white,
-                toolbarHeight: 20,
-                leading: const SizedBox(),
-              ),
-              body: const Center(child: Text("Cart is Empty!")),
-            );
-          }
+              if (listCount == 0) {
+                return const Center(child: Text("Cart is Empty!"));
+              }
 
-          return WillPopScope(
-            onWillPop: () async {
-              Navigator.of(context).popUntil((route) => route.isFirst);
-              widget.navigateTo(0);
-              return false;
-            },
-            child: Scaffold(
-              backgroundColor: const Color(0xffF6F6F6),
-              appBar: AppBar(
-                surfaceTintColor: Colors.white,
-                backgroundColor: Colors.white,
-                toolbarHeight: 20,
-                leading: const SizedBox(),
-              ),
-              bottomNavigationBar: listCount == 0
-                  ? const SizedBox()
-                  : bottomBar(screenWidth, state.products),
-              body: SafeArea(
+              return SafeArea(
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
@@ -114,6 +102,7 @@ class _CartScreenState extends State<CartScreen> {
                       CartItemList(
                         products: state.products,
                         homeBloc: homeBloc,
+                        isCheckoutScreen: false,
                       ),
                       PriceDetailsList(
                         products: state.products,
@@ -122,13 +111,27 @@ class _CartScreenState extends State<CartScreen> {
                     ],
                   ),
                 ),
-              ),
-            ),
-          );
-        } else {
-          return Widgets().widgetLoader();
-        }
-      },
+              );
+            } else {
+              return Widgets().widgetLoader();
+            }
+          },
+        ),
+        bottomNavigationBar: BlocBuilder<HomeBloc, HomeState>(
+          builder: (context, state) {
+            if (state is HomeSuccessState) {
+              int listCount = state.products
+                  .where((product) => product.cartAdded == true)
+                  .length;
+
+              return listCount == 0
+                  ? const SizedBox()
+                  : bottomBar(screenWidth, state.products);
+            }
+            return const SizedBox();
+          },
+        ),
+      ),
     );
   }
 
@@ -141,7 +144,7 @@ class _CartScreenState extends State<CartScreen> {
           isLeftIconVisible: true,
           buttonPress: () {
             Navigator.pushNamed(context, "/CheckoutScreen",
-                arguments: [products, homeBloc]);
+                arguments: [products, homeBloc, widget.navigateTo]);
           },
           title: 'Proceed to Checkout',
           width: screenWidth,

@@ -1,4 +1,4 @@
- import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:shope_ease/network/bloc/home_bloc/home_bloc.dart';
 import 'package:shope_ease/network/model_class/product_response.dart';
 import 'package:shope_ease/ui/cart/qty_counter_widget.dart';
@@ -10,9 +10,14 @@ import '../../theme/theme.dart';
 class CartItemList extends StatefulWidget {
   final List<Product> products;
   final HomeBloc homeBloc;
+  final bool isCheckoutScreen;
 
-  const CartItemList(
-      {super.key, required this.products, required this.homeBloc});
+  const CartItemList({
+    super.key,
+    required this.products,
+    required this.homeBloc,
+    required this.isCheckoutScreen,
+  });
 
   @override
   State<CartItemList> createState() => _CartItemListState();
@@ -79,12 +84,15 @@ class _CartItemListState extends State<CartItemList> {
                                   fontWeight: FontWeight.w400,
                                   color: Color(0xff22950F))),
                           const CustomSizedBox(height: 6),
-                          QtyCounterWidget(
-                            itemQty: getQty,
-                            homeBloc: widget.homeBloc, onPress: () {
-                              widget.homeBloc.add(AddRemoveCartEvent(product: cartItem));
-                          },
-                          ),
+                          if (!widget.isCheckoutScreen)
+                            QtyCounterWidget(
+                              itemQty: getQty,
+                              homeBloc: widget.homeBloc,
+                              onPress: () {
+                                widget.homeBloc
+                                    .add(AddRemoveCartEvent(product: cartItem));
+                              },
+                            ),
                         ],
                       ),
                     )

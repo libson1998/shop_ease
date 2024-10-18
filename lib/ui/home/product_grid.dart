@@ -43,7 +43,7 @@ class ProductGrid extends StatelessWidget {
                 Navigator.pushNamed(
                   context,
                   "/DetailsScreen",
-                  arguments: [navigateTo, product],
+                  arguments: [product, navigateTo],
                 );
               },
               imageUrl: product.image,

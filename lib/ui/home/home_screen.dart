@@ -66,6 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           const CustomSizedBox(height: 16),
                           SearchFormButton(
                             products: state.products,
+                            navigateTo: widget.navigateTo,
                           ),
                         ],
                       ),
@@ -82,7 +83,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     homeBloc: homeBloc,
                   ),
                   Image.asset("assets/images/image_banner.jpg"),
-
                   TitleWidget(title: "Top Selling Products", onPress: () {}),
                   ProductGrid(
                     navigateTo: widget.navigateTo,

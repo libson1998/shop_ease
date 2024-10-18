@@ -46,8 +46,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           leading: const SizedBox(),
         ),
         body: BlocConsumer<ProfileBloc, ProfileState>(
-          listener: (context, state) {
-           },
+          listener: (context, state) {},
           builder: (context, state) {
             if (state is ProfileLoaded) {
               return SafeArea(
@@ -204,7 +203,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 Theme(
                                   data: Theme.of(context).copyWith(
                                     dividerColor: Colors.transparent,
-
                                     listTileTheme: const ListTileThemeData(
                                         contentPadding: EdgeInsets.zero),
                                   ),

@@ -24,4 +24,20 @@ class CartRepo {
       throw Exception('Failed to add product to wishlist: $e');
     }
   }
+
+
+  Future<void> removeAllFromCart(List<Product> products) async {
+    try {
+      final batch = FirebaseFirestore.instance.batch();
+
+      for (var product in products) {
+        DocumentReference productRef = _productsCollection.doc(product.id);
+        batch.update(productRef, {'cartAdded': false});
+      }
+
+      await batch.commit();
+    } catch (e) {
+      throw Exception('Failed to update products: $e');
+    }
+  }
 }

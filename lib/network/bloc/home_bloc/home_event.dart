@@ -16,3 +16,14 @@ class AddRemoveCartEvent extends HomeEvent {
 
   AddRemoveCartEvent({required this.product});
 }
+
+class PurchaseFromCartEvent extends HomeEvent {
+  final List<Product> products;
+
+  PurchaseFromCartEvent({required this.products});
+}
+class ClearCartEvent extends HomeEvent {
+  final List<Product> products;
+
+  ClearCartEvent({required this.products});
+}

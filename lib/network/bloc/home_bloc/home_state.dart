@@ -21,9 +21,7 @@ final class HomeErrorState extends HomeActionState {
   HomeErrorState({required this.error});
 }
 
-final class AddRemoveWishListState extends HomeActionState {
-
-}
+final class AddRemoveWishListState extends HomeActionState {}
 
 final class WishLoadingListState extends HomeActionState {}
 
@@ -43,6 +41,8 @@ final class WishSuccessListErrorState extends HomeActionState {
   });
 }
 
+class CartLoadingState extends HomeState {}
+
 class CartSuccessState extends HomeState {
   final List<Product> products;
 
@@ -53,4 +53,18 @@ class CartErrorState extends HomeState {
   final String error;
 
   CartErrorState({required this.error});
+}
+
+class PurchaseLoadingState extends HomeState {}
+
+class PurchaseSuccessState extends HomeState {
+  final List<Product> products;
+
+  PurchaseSuccessState({required this.products});
+}
+
+class PurchaseErrorState extends HomeState {
+  final String message;
+
+  PurchaseErrorState({required this.message});
 }

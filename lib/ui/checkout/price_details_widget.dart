@@ -20,7 +20,7 @@ class PriceDetailsList extends StatelessWidget {
     double totalAmt = 0.0;
     for (var product in products) {
       if (product.cartAdded) {
-        final productPrice = double.tryParse(product.price ?? '0') ?? 0.0;
+         final productPrice = double.tryParse(product.price ?? '0') ?? 0.0;
         final productOfferPrice =
             double.tryParse(product.offerPrice ?? '0') ?? 0.0;
 

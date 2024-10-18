@@ -7,14 +7,17 @@ import 'package:svg_flutter/svg_flutter.dart';
 
 class SearchFormButton extends StatelessWidget {
   final List<Product> products;
+  final Function(int) navigateTo;
 
-  const SearchFormButton({super.key, required this.products});
+  const SearchFormButton(
+      {super.key, required this.products, required this.navigateTo});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
         onTap: () {
-          Navigator.pushNamed(context, "/SearchScreen",arguments: [products]);
+          Navigator.pushNamed(context, "/SearchScreen",
+              arguments: [products, navigateTo]);
         },
         child: FormFieldWidget(
           enabled: false,
