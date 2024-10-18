@@ -65,25 +65,23 @@ class OrderSuccessScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(16),
                   ),
                   padding: const EdgeInsets.all(12),
-                  child: const Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text(
-                          "We sent an email to orders@random.com with your order confirmation and bill. ",
+                  child: const Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        "We sent an email to orders@random.com with your order confirmation and bill. ",
+                        style: TextStyle(
+                            fontSize: 12, fontWeight: FontWeight.normal),
+                        textAlign: TextAlign.start,
+                      ),
+                      CustomSizedBox(height: 14),
+                      Text("Time placed: 04/03/2024 12:45",
                           style: TextStyle(
-                              fontSize: 12, fontWeight: FontWeight.normal),
-                          textAlign: TextAlign.start,
-                        ),
-                        CustomSizedBox(height: 14),
-                        Text("Time placed: 04/03/2024 12:45",
-                            style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w500,
-                                color: Color(0xff0F041C))),
-                      ],
-                    ),
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                              color: Color(0xff0F041C))),
+                    ],
                   ),
                 ),
                 const CustomSizedBox(height: 18),

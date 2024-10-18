@@ -25,7 +25,7 @@ class _LoginScreenState extends State<LoginScreen> {
           listener: (context, state) {
             if (state is GoogleAuthSuccess) {
 
-               Navigator.pushNamed(context, "/AppBase");
+               Navigator.popAndPushNamed(context, "/AppBase");
             } else if (state is GoogleAuthFailure) {
                ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text(state.message)),
