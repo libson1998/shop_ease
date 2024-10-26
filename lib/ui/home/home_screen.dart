@@ -64,10 +64,10 @@ class _HomeScreenState extends State<HomeScreen> {
                             height: 16,
                           ),
                           const CustomSizedBox(height: 16),
-                          SearchFormButton(
-                            products: state.products,
-                            navigateTo: widget.navigateTo,
-                          ),
+                          // SearchFormButton(
+                          //   products: state.products,
+                          //   navigateTo: widget.navigateTo,
+                          // ),
                         ],
                       ),
                     ),
