@@ -4,7 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shope_ease/theme/theme.dart';
 
 class Widgets {
-  loginAppbar(String title, BuildContext context) {
+  customAppbar(String title, BuildContext context) {
     return AppBar(
       centerTitle: true,
       leading: InkWell(

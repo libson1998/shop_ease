@@ -6,6 +6,7 @@ import 'package:shope_ease/ui/login/login_screen.dart';
 import 'package:shope_ease/ui/order/order_history.dart';
 import 'package:shope_ease/ui/order/order_success_screen.dart';
 import 'package:shope_ease/ui/search/search_screen.dart';
+import 'package:shope_ease/ui/signup/signup_screen.dart';
 import 'package:shope_ease/utils/screen_error.dart';
 
 class RouteGenerator {
@@ -20,6 +21,10 @@ class RouteGenerator {
       case "/AppBase":
         return MaterialPageRoute(
           builder: (context) => const AppBase(),
+        );
+      case "/SignupScreen":
+        return MaterialPageRoute(
+          builder: (context) => const SignupScreen(),
         );
       case "/OrderHistoryScreen":
         return MaterialPageRoute(

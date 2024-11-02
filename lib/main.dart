@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shope_ease/network/bloc/home_bloc/home_bloc.dart';
 import 'package:shope_ease/network/bloc/login_bloc/login_bloc.dart';
 import 'package:shope_ease/network/bloc/profile/profile_bloc.dart';
+import 'package:shope_ease/network/bloc/social_media/signup/auth_bloc.dart';
 import 'package:shope_ease/theme/theme.dart';
 import 'package:shope_ease/utils/constants.dart';
 import 'package:shope_ease/utils/routes.dart';
@@ -44,17 +45,19 @@ class _MyAppState extends State<MyApp> {
         ),
         BlocProvider<LoginBloc>(
           create: (BuildContext context) => LoginBloc(),
-        ), BlocProvider<ProfileBloc>(
+        ),
+        BlocProvider<ProfileBloc>(
           create: (BuildContext context) => ProfileBloc(),
+        ),
+        BlocProvider<AuthBloc>(
+          create: (BuildContext context) => AuthBloc(),
         ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Shop Ease',
         theme: appTheme,
-        initialRoute:widget.loggedIn
-            ? '/AppBase'
-            : '/LoginScreen',
+        initialRoute: widget.loggedIn ? '/AppBase' : '/LoginScreen',
         onGenerateRoute: _routeGenerator.generateRoute,
       ),
     );
