@@ -7,6 +7,7 @@ import 'package:shope_ease/utils/constants.dart';
 import 'package:shope_ease/widgets/shared_preference.dart';
 
 part 'auth_event.dart';
+
 part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
@@ -57,6 +58,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       await _auth.createUserWithEmailAndPassword(
           email: event.email, password: event.password);
       emit(AuthAuthenticated());
+      await SharedPreference()
+          .putStringPreference(PreferenceConstants.strUserName, event.name);
+      await SharedPreference()
+          .putStringPreference(PreferenceConstants.strUserPhone, event.phone);
     } on FirebaseAuthException catch (e) {
       String errorMessage;
       switch (e.code) {
@@ -89,7 +94,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }
 
       final GoogleSignInAuthentication googleAuth =
-      await googleUser.authentication;
+          await googleUser.authentication;
 
       final AuthCredential credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
@@ -97,7 +102,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       );
 
       final UserCredential userCredential =
-      await _auth.signInWithCredential(credential);
+          await _auth.signInWithCredential(credential);
       emit(GoogleAuthSuccess(userCredential.user));
       final user = userCredential.user;
       await SharedPreference()

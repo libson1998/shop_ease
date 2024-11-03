@@ -79,11 +79,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               children: [
                                 Row(
                                   children: [
+                                    // ClipRRect(
+                                    //     borderRadius:
+                                    //         BorderRadius.circular(100),
+                                    //     child: Image.network(
+                                    //       state.image,
+                                    //       height: 60,
+                                    //       width: 60,
+                                    //       fit: BoxFit.cover,
+                                    //     )),
                                     ClipRRect(
                                         borderRadius:
                                             BorderRadius.circular(100),
-                                        child: Image.network(
-                                          state.image,
+                                        child: Image.asset(
+                                         'assets/images/dp_temp.jpg',
                                           height: 60,
                                           width: 60,
                                           fit: BoxFit.cover,
@@ -100,7 +109,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               fontWeight: FontWeight.w500),
                                         ),
                                         Text(
-                                          state.email,
+                                          state.phone,
                                           style: const TextStyle(
                                               fontSize: 13,
                                               fontWeight: FontWeight.normal),
@@ -108,25 +117,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       ],
                                     ),
                                     const Spacer(),
-                                    Container(
-                                      padding: const EdgeInsets.all(8),
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                          color: const Color(0xffFFF1D4)),
-                                      child: Row(
-                                        children: [
-                                          SvgPicture.asset(
-                                              "assets/icons/coins.svg"),
-                                          const CustomSizedBox(width: 4),
-                                          const Text("250",
-                                              style: TextStyle(
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.normal,
-                                                  color: Color(0xffFF8000)))
-                                        ],
-                                      ),
-                                    ),
+
                                   ],
                                 ),
                               ],
@@ -144,16 +135,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 Row(
                                   children: [
                                     ProfileButtonWidget(
-                                      title: "Previous orders",
+                                      title: "Create post",
                                       imageurl: "assets/icons/order.svg",
                                       onPress: () {
-                                        Navigator.pushNamed(
-                                            context, "/OrderHistoryScreen");
+                                        Navigator.pushNamed(context, "/CreatePostScreen");
+
                                       },
                                     ),
                                     const CustomSizedBox(width: 12),
                                     ProfileButtonWidget(
-                                      title: "Delivery Address",
+                                      title: "Current Location",
                                       imageurl: "assets/icons/delivery.svg",
                                       onPress: () {
                                         Navigator.pushNamed(
@@ -166,8 +157,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 Row(
                                   children: [
                                     ProfileButtonWidget(
-                                      title: "Wishlist",
-                                      imageurl: "assets/icons/wishlist.svg",
+                                      title: "Favorites",
+                                      imageurl: "assets/icons/favourite_filled.svg",
                                       onPress: () {
                                         Navigator.of(context)
                                             .popUntil((route) => route.isFirst);
@@ -176,7 +167,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     ),
                                     const CustomSizedBox(width: 12),
                                     ProfileButtonWidget(
-                                      title: "Help center",
+                                      title: "Contact us",
                                       imageurl: "assets/icons/help_center.svg",
                                       onPress: () {},
                                     ),

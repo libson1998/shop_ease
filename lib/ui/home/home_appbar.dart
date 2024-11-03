@@ -17,33 +17,13 @@ class HomeAppBar extends StatelessWidget {
           const SizedBox(
             width: 93,
             child: Text(
-              "Shop Ease",
+              "DemoApp",
               style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.w700,fontSize: 16),
+                  TextStyle(color: Colors.black, fontWeight: FontWeight.w700,fontSize: 20),
             ),
           ),
           const Spacer(),
-          SizedBox(
-            width: 120,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                SvgPicture.asset("assets/icons/location.svg"),
-                const CustomSizedBox(width: 10),
-                const Expanded(
-                    child: Text(
-                  'Deliver to\nCrystal Lagoon Kochi',
-                  style: TextStyle(fontSize: 10),
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 2,
-                  textAlign: TextAlign.start,
-                )),
-              ],
-            ),
-          ),
-          const CustomSizedBox(
-            width: 12,
-          ),
+
           InkWell(
             onTap: () {
               Navigator.pushNamed(context, "/NotificationScreen");

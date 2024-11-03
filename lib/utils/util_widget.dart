@@ -4,17 +4,17 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shope_ease/theme/theme.dart';
 
 class Widgets {
-  customAppbar(String title, BuildContext context) {
+  customAppbar(String title, BuildContext context,bool isShowButton) {
     return AppBar(
       centerTitle: true,
-      leading: InkWell(
+      leading:isShowButton? InkWell(
           onTap: () {
             Navigator.pop(context);
           },
-          child: const Icon(Icons.arrow_back_ios)),
+          child: const Icon(Icons.arrow_back_ios)):const SizedBox(),
       title: Text(
         title,
-        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
       ),
     );
   }

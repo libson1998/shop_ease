@@ -15,13 +15,16 @@ const backgroundColor = Color(0xFFEEEEEE);
 const kAnimationDuration = Duration(milliseconds: 200);
 const cardColor = Color(0xffffffff);
 const currency = " ₹";
-final headingStyle = const TextStyle(
+const headingStyle = TextStyle(
   fontSize: 28,
   fontWeight: FontWeight.bold,
   color: Colors.black,
   height: 1.5,
 );
 
+const String baseUrl = "https://newsdata.io/api/1/";
+const String authToken = "pub_58013c2be382f234cfc0afadf910c265764a8";
+const String query = "sports";
 const defaultDuration = Duration(milliseconds: 250);
 
 // Form Error
@@ -68,4 +71,5 @@ class PreferenceConstants {
 
   static const String imageUrl = "IMAGE_URL";
   static const String isLoggedIn = "isLoggedIn";
+  static const String fcmToken = "fcm_token";
 }

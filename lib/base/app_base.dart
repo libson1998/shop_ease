@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shope_ease/theme/theme.dart';
-import 'package:shope_ease/ui/cart/cart_screen.dart';
 import 'package:shope_ease/ui/home/home_screen.dart';
+import 'package:shope_ease/ui/news_feeds/news_feeds_screen.dart';
 import 'package:shope_ease/ui/profile/profile_screen.dart';
-import 'package:shope_ease/ui/wishlist/wishlist_screen.dart';
 import 'package:svg_flutter/svg_flutter.dart';
 
 class AppBase extends StatefulWidget {
@@ -26,8 +25,7 @@ class MyHomePageState extends State<AppBase> {
     super.initState();
     _screens = [
       HomeScreen(navigateTo: onItemTapped),
-      WishlistScreen(navigateTo: onItemTapped),
-      CartScreen(navigateTo: onItemTapped),
+      NewsFeedsScreen(navigateTo: onItemTapped),
       ProfileScreen(navigateTo: onItemTapped),
     ];
   }
@@ -58,25 +56,16 @@ class MyHomePageState extends State<AppBase> {
           ),
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
-              'assets/icons/favorites.svg',
+              'assets/icons/news.svg',
               color: _selectedIndex == 1 ? redColor : blackColor,
               height: 24,
               width: 24,
             ),
-            label: 'Wishlist',
-          ),
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              'assets/icons/cart.svg',
-              color: _selectedIndex == 2 ? redColor : blackColor,
-              height: 24,
-              width: 24,
-            ),
-            label: 'Cart',
+            label: 'News',
           ),
           BottomNavigationBarItem(
             icon: SvgPicture.asset('assets/icons/profile.svg',
-                color: _selectedIndex == 3 ? redColor : blackColor,
+                color: _selectedIndex == 2 ? redColor : blackColor,
                 height: 24,
                 width: 24),
             label: 'Profile',
