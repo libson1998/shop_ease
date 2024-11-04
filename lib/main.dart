@@ -5,6 +5,7 @@ import 'package:shope_ease/firebase_options.dart';
 import 'package:shope_ease/network/bloc/login_bloc/login_bloc.dart';
 import 'package:shope_ease/network/bloc/profile/profile_bloc.dart';
 import 'package:shope_ease/network/bloc/social_media/news_feeds/news_feeds_bloc.dart';
+import 'package:shope_ease/network/bloc/social_media/post/post_bloc.dart';
 import 'package:shope_ease/network/bloc/social_media/signup/auth_bloc.dart';
 import 'package:shope_ease/notification/local_notification.dart';
 import 'package:shope_ease/theme/theme.dart';
@@ -62,6 +63,9 @@ class _MyAppState extends State<MyApp> {
         ),
         BlocProvider<NewsFeedsBloc>(
           create: (BuildContext context) => NewsFeedsBloc(),
+        ),
+        BlocProvider<PostBloc>(
+          create: (BuildContext context) => PostBloc(),
         ),
       ],
       child: MaterialApp(
