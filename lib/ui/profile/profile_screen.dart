@@ -79,31 +79,42 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               children: [
                                 Row(
                                   children: [
-                                    // ClipRRect(
-                                    //     borderRadius:
-                                    //         BorderRadius.circular(100),
-                                    //     child: Image.network(
-                                    //       state.image,
-                                    //       height: 60,
-                                    //       width: 60,
-                                    //       fit: BoxFit.cover,
-                                    //     )),
-                                    ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(100),
-                                        child: Image.asset(
-                                         'assets/images/dp_temp.jpg',
-                                          height: 60,
-                                          width: 60,
-                                          fit: BoxFit.cover,
-                                        )),
-                                    const CustomSizedBox(width: 18),
+                                    state.image != null
+                                        ? ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(100),
+                                            child: Image.network(
+                                              state.image,
+                                              height: 60,
+                                              width: 60,
+                                              fit: BoxFit.cover,
+                                              errorBuilder: (context, error,
+                                                      stackTrace) =>
+                                                  ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              100),
+                                                      child: Image.asset(
+                                                        'assets/images/dp_temp.jpg',
+                                                        height: 60,
+                                                        width: 60,
+                                                        fit: BoxFit.cover,
+                                                      )),
+                                            ))
+                                        : const CustomSizedBox(width: 18),
+                                    CustomSizedBox(width: 8,),
                                     Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           state.name,
+                                          style: const TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                        Text(
+                                          state.email,
                                           style: const TextStyle(
                                               fontSize: 16,
                                               fontWeight: FontWeight.w500),
@@ -117,7 +128,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       ],
                                     ),
                                     const Spacer(),
-
                                   ],
                                 ),
                               ],

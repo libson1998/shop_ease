@@ -25,11 +25,21 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       EmailPasswordLoginRequested event, Emitter<AuthState> emit) async {
     emit(AuthLoading());
     try {
-      await _auth.signInWithEmailAndPassword(
+      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
           email: event.email, password: event.password);
+
+      // Success: Store user info if needed
+      User? user = userCredential.user;
+      if (user != null) {
+        // Optional: Store user details in preferences or other storage
+        await SharedPreference()
+            .putBoolPreference(PreferenceConstants.isLoggedIn, true);
+        await SharedPreference().putStringPreference('userId', user.uid);
+        await SharedPreference()
+            .putStringPreference(PreferenceConstants.strUserEmail, user.email);
+      }
+
       emit(AuthAuthenticated());
-      await SharedPreference()
-          .putBoolPreference(PreferenceConstants.isLoggedIn, true);
     } on FirebaseAuthException catch (e) {
       String errorMessage;
       switch (e.code) {
@@ -55,13 +65,25 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       EmailPasswordSignupRequested event, Emitter<AuthState> emit) async {
     emit(AuthLoading());
     try {
-      await _auth.createUserWithEmailAndPassword(
-          email: event.email, password: event.password);
+      UserCredential userCredential =
+          await _auth.createUserWithEmailAndPassword(
+              email: event.email, password: event.password);
+
+      User? user = userCredential.user;
+      if (user != null) {
+        await user.updateProfile(displayName: event.name);
+        await user.reload();
+        user = _auth.currentUser;
+
+        // await SharedPreference()
+        //     .putStringPreference(PreferenceConstants.strUserName, event.name);
+        // await SharedPreference()
+        //     .putStringPreference(PreferenceConstants.strUserPhone, event.phone);
+        // await SharedPreference()
+        //     .putStringPreference(PreferenceConstants.strUserEmail, event.email);
+      }
+
       emit(AuthAuthenticated());
-      await SharedPreference()
-          .putStringPreference(PreferenceConstants.strUserName, event.name);
-      await SharedPreference()
-          .putStringPreference(PreferenceConstants.strUserPhone, event.phone);
     } on FirebaseAuthException catch (e) {
       String errorMessage;
       switch (e.code) {

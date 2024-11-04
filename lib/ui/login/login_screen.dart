@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:shope_ease/network/bloc/login_bloc/login_bloc.dart';
-import 'package:shope_ease/network/bloc/social_media/signup/auth_bloc.dart';
+  import 'package:shope_ease/network/bloc/social_media/signup/auth_bloc.dart';
 import 'package:shope_ease/theme/theme.dart';
 import 'package:shope_ease/widgets/button_widget.dart';
 import 'package:shope_ease/widgets/sized_box_heigh_width.dart';
@@ -31,6 +30,13 @@ class _LoginScreenState extends State<LoginScreen> {
             } else if (state is AuthError) {
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 content: Text(state.errorMessage),
+              ));
+            }else if (state is GoogleAuthSuccess){
+              Navigator.popAndPushNamed(context, "/AppBase");
+
+            } else if (state is GoogleAuthFailure) {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text(state.message),
               ));
             }
           },
@@ -164,7 +170,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     ButtonWidget(
                       buttonPress: () {
-                        context.read<LoginBloc>().add(GoogleSignInEvent());
+                        context.read<AuthBloc>().add(GoogleLoginInEvent());
                       },
                       title: 'Sign in with Google',
                       icon: "assets/icons/google.svg",
